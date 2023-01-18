@@ -2,9 +2,14 @@ package springdemo;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+
 @Component("myTennisCoachComponent")
+@Scope("singleton")
 public class TennisCoach implements Coach {
 
     @Autowired // Field injection
@@ -40,5 +45,17 @@ public class TennisCoach implements Coach {
     @Override
     public String getDailyFortune() {
         return fortuneService.getFortune();
+    }
+
+    // Define my init method
+    @PostConstruct
+    public void doMyStartupStuff() {
+        System.out.println("TennisCoach : Inside method doMyStartupStuff");
+    }
+
+    // Define my destroy method
+    @PreDestroy
+    public void doMyCleanupStuff() {
+        System.out.println("TennisCoach : Inside method doMyCleanupStuff");
     }
 }
